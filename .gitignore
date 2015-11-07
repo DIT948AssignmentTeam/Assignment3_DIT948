@@ -1,0 +1,32 @@
+# java
+
+*.class
+
+# Eclipse
+.classpath
+.project
+.settings/
+workspace.xml
+tasks.xml
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
+/bin/
+
+#NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
