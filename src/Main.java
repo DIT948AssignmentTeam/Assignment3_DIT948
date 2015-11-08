@@ -111,6 +111,15 @@ public class Main {
 
 
         frame.setJMenuBar(menubar);
+
+
+        Random random1 = new Random();
+
+        RobotSE userRobot = new RobotSE(pacCity ,random1.nextInt(10), random1.nextInt(10),Direction.NORTH );
+        RobotSE enemyRobot = new RobotSE(pacCity, random1.nextInt(10),random1.nextInt(10), Direction.EAST);
+        enemyRobot.setColor(Color.BLUE);
+        userRobot.setColor(Color.RED);
+
     }
         static void putWalls(City pacCity){  //adding walls
 
@@ -122,6 +131,8 @@ public class Main {
             }
 
         }
+
+
 
 
         }
