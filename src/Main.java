@@ -17,6 +17,7 @@ import java.util.*;
 
 
 /**
+ * Created by Shafiq on 07-Nov-15.
  * Created by Iso on 07-Nov-15.
  */
 public class Main {
@@ -24,7 +25,9 @@ public class Main {
 
         City.showFrame(false);
 
-        City pacCity = new City();
+        City pacCity = new City(); //creating a new city
+
+        putWalls(pacCity); //showing the walls
 
         RobotUIComponents components = new RobotUIComponents(pacCity, 0, 0, 10, 10);
 
@@ -56,19 +59,19 @@ public class Main {
 
         JButton up = new JButton("UP");
         buttonsPane.add(up, new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
-                GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));
+                GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         JButton down = new JButton("DOWN");
         buttonsPane.add(down, new GridBagConstraints(1, 2, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
-                GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));
+                GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         JButton left = new JButton("LEFT");
         buttonsPane.add(left, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
-                GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));
+                GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         JButton right = new JButton("RIGHT");
         buttonsPane.add(right, new GridBagConstraints(2, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
-                GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));
+                GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         JButton pick = new JButton("PICK");
         buttonsPane.add(pick, new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
-                GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));
+                GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 
 
         actionMenuItem.setMnemonic(KeyEvent.VK_E);
@@ -86,13 +89,13 @@ public class Main {
             public void actionPerformed(ActionEvent changedifficulty) {
             }
         });
-        mediumSettingsItem.setToolTipText("Easy Difficulty");
+        mediumSettingsItem.setToolTipText("Medium Difficulty");
         mediumSettingsItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent changedifficulty) {
             }
         });
-        hardSettingsItem.setToolTipText("Easy Difficulty");
+        hardSettingsItem.setToolTipText("Hard Difficulty");
         hardSettingsItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent changedifficulty) {
@@ -108,7 +111,22 @@ public class Main {
 
 
         frame.setJMenuBar(menubar);
-
-
     }
-}
+        static void putWalls(City pacCity){  //adding walls
+
+            for (int i = 0; i <= 10; i++) {
+                new Wall( pacCity, 0, i, Direction.NORTH);
+                new Wall(pacCity, 10, i, Direction.SOUTH);
+                new Wall(pacCity, i, 0, Direction.WEST);
+                new Wall(pacCity, i, 10, Direction.EAST);
+            }
+
+        }
+
+
+        }
+
+
+
+
+
