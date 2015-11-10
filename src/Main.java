@@ -38,7 +38,7 @@ public class Main {
         panel.add(buttonsPane);
         frame.setContentPane(panel);
         frame.setVisible(true);
-        frame.setSize(600, 800);
+        frame.setSize(650, 800);
 
         JMenuBar menubar = new JMenuBar();
 
@@ -116,18 +116,19 @@ public class Main {
         Random random1 = new Random();
 
         RobotSE userRobot = new RobotSE(pacCity ,random1.nextInt(10), random1.nextInt(10),Direction.NORTH );
-        RobotSE enemyRobot = new RobotSE(pacCity, random1.nextInt(10),random1.nextInt(10), Direction.EAST);
-        enemyRobot.setColor(Color.BLUE);
-        userRobot.setColor(Color.RED);
+                RobotSE enemyRobot = new RobotSE(pacCity, random1.nextInt(10),random1.nextInt(10), Direction.EAST);
+                enemyRobot.setColor(Color.BLUE);
+                userRobot.setColor(Color.RED);
 
-    }
-        static void putWalls(City pacCity){  //adding walls
 
-            for (int i = 0; i <= 10; i++) {
-                new Wall( pacCity, 0, i, Direction.NORTH);
-                new Wall(pacCity, 10, i, Direction.SOUTH);
-                new Wall(pacCity, i, 0, Direction.WEST);
-                new Wall(pacCity, i, 10, Direction.EAST);
+            }
+    static void putWalls(City pacCity){  //adding walls
+
+        for (int i = 0; i <= 10; i++) {
+            new Wall( pacCity, 0, i, Direction.NORTH);
+            new Wall(pacCity, 10, i, Direction.SOUTH);
+            new Wall(pacCity, i, 0, Direction.WEST);
+            new Wall(pacCity, i, 10, Direction.EAST);
             }
 
         }
