@@ -1,4 +1,6 @@
 import becker.robots.*;
+import dit948.*;
+import dit948.Random;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -31,16 +33,21 @@ public class Main {
 
         RobotUIComponents components = new RobotUIComponents(pacCity, 0, 0, 10, 10);
 
+        JMenuBar menubar = new JMenuBar();
+
         JFrame frame = new JFrame("Assignment03");
+        JPanel base = new JPanel();
         JPanel panel = new JPanel();
         JPanel buttonsPane = new JPanel(new GridBagLayout());
         panel.add(components.getCityView());
         panel.add(buttonsPane);
+        base.add(menubar);
+        base.add(panel);
         frame.setContentPane(panel);
         frame.setVisible(true);
-        frame.setSize(650, 800);
+        frame.setSize(650, 850);
 
-        JMenuBar menubar = new JMenuBar();
+
 
 
         JMenu actions = new JMenu("Actions");
@@ -57,7 +64,36 @@ public class Main {
         settingsGroup.add(mediumSettingsItem);
         settingsGroup.add(hardSettingsItem);
 
+
+        int firstRandomInt = Random.randomInt(10), secondRandomInt = Random.randomInt(10);
+        if(secondRandomInt == firstRandomInt) {
+            while(secondRandomInt == Random.randomInt(10)){
+                secondRandomInt = Random.randomInt(10);
+            }
+        }
+
+        CustomRobot userRobot = new CustomRobot(pacCity, firstRandomInt, Random.randomInt(10), Direction.NORTH);
+        CustomRobot enemyRobot = new CustomRobot(pacCity, secondRandomInt, Random.randomInt(10), Direction.EAST);
+        enemyRobot.setColor(Color.BLUE);
+        userRobot.setColor(Color.RED);
+
         JButton up = new JButton("UP");
+        up.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                if(userRobot.getDirection() == Direction.NORTH){
+                userRobot.move();
+                }else if(userRobot.getDirection() == Direction.EAST){
+                    userRobot.turnLeft();
+                    userRobot.move();
+                }else if(userRobot.getDirection() == Direction.WEST){
+                    userRobot.turnRight();
+                    userRobot.move();
+                }else if(userRobot.getDirection() == Direction.SOUTH){
+                    userRobot.turnAround();
+                    userRobot.move();
+                }
+            }
+        });
         buttonsPane.add(up, new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
                 GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         JButton down = new JButton("DOWN");
@@ -113,31 +149,20 @@ public class Main {
         frame.setJMenuBar(menubar);
 
 
-        Random random1 = new Random();
+    }
 
-        RobotSE userRobot = new RobotSE(pacCity ,random1.nextInt(10), random1.nextInt(10),Direction.NORTH );
-                RobotSE enemyRobot = new RobotSE(pacCity, random1.nextInt(10),random1.nextInt(10), Direction.EAST);
-                enemyRobot.setColor(Color.BLUE);
-                userRobot.setColor(Color.RED);
-
-
-            }
-    static void putWalls(City pacCity){  //adding walls
+    static void putWalls(City pacCity) {  //adding walls
 
         for (int i = 0; i <= 10; i++) {
-            new Wall( pacCity, 0, i, Direction.NORTH);
+            new Wall(pacCity, 0, i, Direction.NORTH);
             new Wall(pacCity, 10, i, Direction.SOUTH);
             new Wall(pacCity, i, 0, Direction.WEST);
             new Wall(pacCity, i, 10, Direction.EAST);
-            }
-
         }
 
+    }
 
-
-
-        }
-
+}
 
 
 
