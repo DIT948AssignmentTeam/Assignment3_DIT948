@@ -36,16 +36,11 @@ public class Main {
         JMenuBar menubar = new JMenuBar();
 
         JFrame frame = new JFrame("Assignment03");
-        JPanel base = new JPanel();
         JPanel panel = new JPanel();
         JPanel buttonsPane = new JPanel(new GridBagLayout());
-        panel.add(components.getCityView());
-        panel.add(buttonsPane);
-        base.add(menubar);
-        base.add(panel);
-        frame.setContentPane(panel);
-        frame.setVisible(true);
-        frame.setSize(650, 850);
+        JPanel cityView = components.getCityView();
+        components.getCityView().setSimSize(44);
+
 
 
 
@@ -79,19 +74,21 @@ public class Main {
 
         JButton up = new JButton("UP");
         up.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                if(userRobot.getDirection() == Direction.NORTH){
-                userRobot.move();
-                }else if(userRobot.getDirection() == Direction.EAST){
-                    userRobot.turnLeft();
-                    userRobot.move();
-                }else if(userRobot.getDirection() == Direction.WEST){
-                    userRobot.turnRight();
-                    userRobot.move();
-                }else if(userRobot.getDirection() == Direction.SOUTH){
-                    userRobot.turnAround();
-                    userRobot.move();
-                }
+            public void actionPerformed(ActionEvent up){
+                userRobot.turnAround();
+//                if(userRobot.getDirection() == Direction.NORTH){
+//                userRobot.move();
+//                }else if(userRobot.getDirection() == Direction.EAST){
+//                    userRobot.turnLeft();
+//                    userRobot.move();
+//                }else if(userRobot.getDirection() == Direction.WEST){
+//                    userRobot.turnRight();
+//                    userRobot.move();
+//                }else if(userRobot.getDirection() == Direction.SOUTH){
+//                    userRobot.turnAround();
+//                    userRobot.move();
+//                }
+
             }
         });
         buttonsPane.add(up, new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
@@ -145,8 +142,14 @@ public class Main {
         settings.add(hardSettingsItem);
         menubar.add(settings);
 
-
+        panel.add(components.getCityView());
         frame.setJMenuBar(menubar);
+        frame.setContentPane(panel);
+        frame.add(buttonsPane);
+        frame.setSize(600, 700);
+
+
+        frame.setVisible(true);
 
 
     }
