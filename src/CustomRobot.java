@@ -7,14 +7,14 @@ import static dit948.Random.*;
 /**
  * Created by Iso on 10-Nov-15.
  */
-public class CustomRobot extends RobotSE{
+public class CustomRobot extends RobotSE {
     protected boolean isPlayer;
 
-    public CustomRobot (City city, int xStreet, int yStreet, Direction direction) {
+    public CustomRobot(City city, int xStreet, int yStreet, Direction direction) {
         super(city, xStreet, yStreet, direction);
     }
 
-    public CustomRobot (City city, int xStreet, int yStreet, Direction direction, boolean isPlayer) {
+    public CustomRobot(City city, int xStreet, int yStreet, Direction direction, boolean isPlayer) {
         super(city, xStreet, yStreet, direction);
         this.isPlayer = isPlayer;
     }
@@ -23,7 +23,7 @@ public class CustomRobot extends RobotSE{
         int nrTurns = randomInt(4);
         double speed = getSpeed();
         if (nrTurns > 0)
-            setSpeed(nrTurns*speed);
+            setSpeed(nrTurns * speed);
         for (int i = 0; i < nrTurns; i++)
             turnLeft();
         setSpeed(speed);
@@ -31,7 +31,7 @@ public class CustomRobot extends RobotSE{
     }
 
     public void go(int steps) {
-        for(int i = 0; i != steps; i++) { // a potentially infinite loop
+        for (int i = 0; i != steps; i++) { // a potentially infinite loop
             pickThing();
             randomMove();
         }
@@ -55,10 +55,12 @@ public class CustomRobot extends RobotSE{
         if (canPickThing())
             super.pickThing();
     }
+
     public void move() {
         if (frontIsClear())
             super.move();
     }
+
     public void turnAround() {
         double speed = getSpeed();
         setSpeed(2 * speed);
@@ -73,63 +75,90 @@ public class CustomRobot extends RobotSE{
         }
     }
 
-    public void moveNorth(int nrSteps){
-        if(isFacingNorth()){
-            move(nrSteps);
-        }else if(isFacingSouth()){
-            this.turnAround();
-            move(nrSteps);
-        }else if(isFacingEast()){
-            this.turnLeft();
-            move(nrSteps);
-        }else if(isFacingWest()){
-            this.turnRight();
-            move(nrSteps);
-        }
+    public void moveNorth(int nrSteps) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (isFacingNorth()) {
+                    move(nrSteps);
+                } else if (isFacingSouth()) {
+                    turnAround();
+                    move(nrSteps);
+                } else if (isFacingEast()) {
+                    turnLeft();
+                    move(nrSteps);
+                } else if (isFacingWest()) {
+                    turnRight();
+                    move(nrSteps);
+                }
+            }
+        });
+        thread.start();
     }
 
-    public void moveSouth(int nrSteps){
-        if(isFacingSouth()){
-            move(nrSteps);
-        }else if(isFacingNorth()){
-            this.turnAround();
-            move(nrSteps);
-        }else if(isFacingWest()){
-            this.turnLeft();
-            move(nrSteps);
-        }else if(isFacingEast()){
-            this.turnRight();
-            move(nrSteps);
-        }
+    public void moveSouth(int nrSteps) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (isFacingSouth()) {
+                    move(nrSteps);
+                } else if (isFacingNorth()) {
+                    turnAround();
+                    move(nrSteps);
+                } else if (isFacingWest()) {
+                    turnLeft();
+                    move(nrSteps);
+                } else if (isFacingEast()) {
+                    turnRight();
+                    move(nrSteps);
+                }
+            }
+        });
+        thread.start();
     }
 
-    public void moveEast(int nrSteps){
-        if(isFacingEast()){
-            move(nrSteps);
-        }else if(isFacingWest()){
-            this.turnAround();
-            move(nrSteps);
-        }else if(isFacingNorth()){
-            this.turnRight();
-            move(nrSteps);
-        }else if(isFacingSouth()){
-            this.turnLeft();
-            move(nrSteps);
-        }
+    public void moveEast(int nrSteps) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (isFacingEast()) {
+                    move(nrSteps);
+                } else if (isFacingWest()) {
+                    turnAround();
+                    move(nrSteps);
+                } else if (isFacingNorth()) {
+                    turnRight();
+                    move(nrSteps);
+                } else if (isFacingSouth()) {
+                    turnLeft();
+                    move(nrSteps);
+                }
+
+            }
+        });
+        thread.start();
+
     }
 
-    public void moveWest(int nrSteps){
-        if(isFacingWest()){
-            move(nrSteps);
-        }else if(isFacingEast()){
-            this.turnAround();
-            move(nrSteps);
-        }else if(isFacingNorth()){
-            this.turnLeft();
-            move(nrSteps);
-        }else if(isFacingSouth()){
-            this.turnRight();
-            move(nrSteps);
-        }
+    public void moveWest(int nrSteps) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (isFacingWest()) {
+                    move(nrSteps);
+                } else if (isFacingEast()) {
+                    turnAround();
+                    move(nrSteps);
+                } else if (isFacingNorth()) {
+                    turnLeft();
+                    move(nrSteps);
+                } else if (isFacingSouth()) {
+                    turnRight();
+                    move(nrSteps);
+                }
+            }
+        });
+        thread.start();
     }
 }
+

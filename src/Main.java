@@ -23,6 +23,7 @@ import java.util.*;
  * @author Isakovski Filip
  */
 public class Main {
+    static double robotspeed = 1;
     public static void main(String[] args) {
         StartGame();
     }
@@ -33,7 +34,7 @@ public class Main {
 
         City pacCity = new City(); //creating a new city
 
-        Rectangle rectangle = new Rectangle();
+        //Rectangle rectangle = new Rectangle();
 
         putWalls(pacCity); //showing the walls
 
@@ -78,7 +79,7 @@ public class Main {
         CustomRobot userRobot = new CustomRobot(pacCity, firstRandomInt, Random.randomInt(10), Direction.NORTH, true);
         MachineRobot enemyRobot = new MachineRobot(pacCity, secondRandomInt, Random.randomInt(10), Direction.EAST, false);
         enemyRobot.setColor(Color.BLUE);
-        enemyRobot.setSpeed(3);
+        //enemyRobot.setSpeed(3);
         System.out.println("Speed: "+enemyRobot.getSpeed());
         userRobot.setColor(Color.RED);
         Thread enemyThread = new Thread(enemyRobot);
@@ -91,13 +92,7 @@ public class Main {
         JButton up = new JButton("UP");
         up.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent up){
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        userRobot.moveNorth(1);
-                    }
-                });
-                thread.start();
+                userRobot.moveNorth(1);
             }
         });
         buttonsPane.add(up, new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
@@ -105,43 +100,28 @@ public class Main {
         JButton down = new JButton("DOWN");
         down.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent down) {
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        userRobot.moveSouth(1);
-                    }
-                });
-                thread.start();
+                userRobot.moveSouth(1);
             }
         });
+
         buttonsPane.add(down, new GridBagConstraints(1, 2, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
                 GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         JButton left = new JButton("LEFT");
         left.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent left) {
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        userRobot.moveWest(1);
-                    }
-                });
-                thread.start();
+                userRobot.moveWest(1);
             }
         });
+
         buttonsPane.add(left, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
                 GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         JButton right = new JButton("RIGHT");
         right.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent right){
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        userRobot.moveEast(1);
-                    }
-                });
-                thread.start();
+                userRobot.moveEast(1);
             }
         });
+
         buttonsPane.add(right, new GridBagConstraints(2, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
                 GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
         JButton pick = new JButton("PICK");
@@ -191,7 +171,7 @@ public class Main {
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        enemyRobot.setSpeed(0.5);
+                        enemyRobot.setSpeed(2);
                         System.out.println("Speed: "+enemyRobot.getSpeed());
                     }
                 });
@@ -205,7 +185,7 @@ public class Main {
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        enemyRobot.setSpeed(3);
+                        enemyRobot.setSpeed(4);
                         System.out.println("Speed: "+enemyRobot.getSpeed());
                     }
                 });
@@ -219,7 +199,7 @@ public class Main {
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        enemyRobot.setSpeed(7);
+                        enemyRobot.setSpeed(6);
                         System.out.println("Speed: "+enemyRobot.getSpeed());
                     }
                 });
@@ -236,9 +216,10 @@ public class Main {
         settings.add(easySettingsItem);
         settings.add(mediumSettingsItem);
         settings.add(hardSettingsItem);
+        easySettingsItem.setSelected(true);
         menubar.add(settings);
 
-        panel.add(components.getCityView());
+        panel.add(cityView);
         frame.setJMenuBar(menubar);
         frame.setContentPane(panel);
         frame.add(buttonsPane);
