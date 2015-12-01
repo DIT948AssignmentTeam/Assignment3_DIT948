@@ -2,7 +2,6 @@ import becker.robots.*;
 import java.awt.*;
 
 /**
- * Created by Iso on 10-Nov-15.
  */
 public class CustomCityView extends CityView{
     private City aModel;

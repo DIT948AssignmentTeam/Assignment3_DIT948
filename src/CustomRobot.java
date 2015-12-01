@@ -1,14 +1,23 @@
 import becker.robots.*;
+import becker.robots.Robot;
 
 import java.awt.*;
 
 import static dit948.Random.*;
 
 /**
- * Created by Iso on 10-Nov-15.
+ * A custom robot class mainly used for the player robot
  */
-public class CustomRobot extends RobotSE {
+public class CustomRobot extends RobotSE implements Runnable{
     protected boolean isPlayer;
+    protected boolean breakBot = false;
+    protected boolean crashedBot = false;
+    CustomRobot enemyRobot;
+
+    public CustomRobot (City city, int xStreet, int yStreet, Direction direction, CustomRobot enemyRobot) {
+        super(city, xStreet, yStreet, direction);
+        this.enemyRobot = enemyRobot;
+    }
 
     public CustomRobot(City city, int xStreet, int yStreet, Direction direction) {
         super(city, xStreet, yStreet, direction);
@@ -30,9 +39,15 @@ public class CustomRobot extends RobotSE {
         move();
     }
 
+    public boolean intersects(){
+        if(this.getIntersection()==enemyRobot.getIntersection())
+        return true;
+
+        return false;
+    }
+
     public void go(int steps) {
         for (int i = 0; i != steps; i++) { // a potentially infinite loop
-            pickThing();
             randomMove();
         }
     }
@@ -46,14 +61,17 @@ public class CustomRobot extends RobotSE {
         setSpeed(speed);
     }
 
-    public void putThing() {
-        if (countThingsInBackpack() > 0)
-            super.putThing();
-    }
-
     public void pickThing() {
         if (canPickThing())
             super.pickThing();
+    }
+
+    public void moveR() {
+        if (frontIsClear())
+            super.move();
+        if (this.intersects()){
+            this.breakRobot("user dead");
+        }
     }
 
     public void move() {
@@ -71,16 +89,26 @@ public class CustomRobot extends RobotSE {
 
     public void move(int nrSteps) {
         for (int i = 0; i < nrSteps; i++) {
-            move();
+            moveR();
         }
     }
 
-    public void moveNorth(int nrSteps) {
+    public boolean intersects(CustomRobot user){
+        if(user.getIntersection()==this.getIntersection())
+            return true;
+
+        return false;
+    }
+
+    public void moveNorth(int nrSteps, CustomRobot robot) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 if (isFacingNorth()) {
                     move(nrSteps);
+                    if(intersects(robot)){
+                        StartGame.winLoseWindow(false, StartGame.frame, StartGame.userRobot);
+                    }
                 } else if (isFacingSouth()) {
                     turnAround();
                     move(nrSteps);
@@ -91,12 +119,13 @@ public class CustomRobot extends RobotSE {
                     turnRight();
                     move(nrSteps);
                 }
+                //System.out.println(getIntersection());
             }
         });
         thread.start();
     }
 
-    public void moveSouth(int nrSteps) {
+    public void moveSouth(int nrSteps, CustomRobot robot) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -112,12 +141,18 @@ public class CustomRobot extends RobotSE {
                     turnRight();
                     move(nrSteps);
                 }
+                //System.out.println(getIntersection());
             }
         });
         thread.start();
     }
 
-    public void moveEast(int nrSteps) {
+    @Override
+    public void breakRobot(String s) {
+        super.breakRobot(s);
+    }
+
+    public void moveEast(int nrSteps, CustomRobot robot) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -133,14 +168,13 @@ public class CustomRobot extends RobotSE {
                     turnLeft();
                     move(nrSteps);
                 }
-
             }
         });
         thread.start();
 
     }
 
-    public void moveWest(int nrSteps) {
+    public void moveWest(int nrSteps, CustomRobot robot) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -156,9 +190,25 @@ public class CustomRobot extends RobotSE {
                     turnRight();
                     move(nrSteps);
                 }
+                //System.out.println(getIntersection());
             }
         });
         thread.start();
+    }
+
+    public boolean checkPrize(){
+        if(countThingsInBackpack() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void run() {
+        while(true){
+            if(StartGame.userRobot.getIntersection()==StartGame.enemyRobot.getIntersection())
+                this.breakRobot("Broken Player!!!");
+        }
     }
 }
 

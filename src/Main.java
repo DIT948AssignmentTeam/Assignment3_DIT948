@@ -28,7 +28,20 @@ import java.util.*;
 public class Main {
     static double robotspeed = 1;
     public static void main(String[] args) {
-            ;
+        StartGame();
+//        Thread thread = new Thread (new Runnable(){
+//            @Override
+//            public void run() {
+//                StartGame();
+//                while(true){
+//                    if (StartGame.userRobot.getIntersection()==StartGame.enemyRobot.getIntersection()) {
+//                        winLoseWindow(false, StartGame.frame, StartGame.userRobot);
+//                        StartGame.components.getMenuBar().getMenu(1).getItem(0).doClick();
+//                    }
+//                }
+//            }
+//        });
+//        thread.start();
     }
 
 
@@ -36,7 +49,7 @@ public class Main {
      *  Here is where the magic happens:
      *  Worlds are created, robots are created and the game is prepared for starting
      */
-    public static void StartGame(){
+    public static boolean StartGame(){
 
         City.showFrame(false);
 
@@ -90,8 +103,12 @@ public class Main {
         /**
          * Creating the robots
          */
-        CustomRobot userRobot = new CustomRobot(pacCity, firstRandomInt, Random.randomInt(10), Direction.NORTH, true);
-        MachineRobot enemyRobot = new MachineRobot(pacCity, secondRandomInt, Random.randomInt(10), Direction.EAST, false);
+
+//        MachineRobot enemyRobot = new MachineRobot(pacCity, secondRandomInt, Random.randomInt(10),
+//                Direction.EAST, userRobot, frame, components);
+        MachineRobot enemyRobot = new MachineRobot(pacCity, secondRandomInt, Random.randomInt(10),
+                Direction.EAST, frame, components);
+        CustomRobot userRobot = new CustomRobot(pacCity, firstRandomInt, Random.randomInt(10), Direction.NORTH, enemyRobot);
         enemyRobot.setColor(Color.BLUE);
         //enemyRobot.setSpeed(3);
         System.out.println("Speed: "+enemyRobot.getSpeed());
@@ -99,18 +116,7 @@ public class Main {
         userRobot.setSpeed(4);
         Thread enemyThread = new Thread(enemyRobot);
         enemyThread.start();
-
-        frame.
-
-        Thread test1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if(enemyRobot.intersects(userRobot)) {
-                    System.out.println("CRASH");
-                }
-            }
-        });
-        test1.start();
+        Thread userThread = new Thread(userRobot);
 
         /**
          * Creating the Prize
@@ -131,10 +137,10 @@ public class Main {
         JButton up = new JButton("UP");
         up.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent up){
-                userRobot.moveNorth(1);
-                if(enemyRobot.intersects(userRobot)) {
-                    winLoseWindow(false, frame, userRobot);
-                }
+                userRobot.moveNorth(1, enemyRobot);
+                //if(enemyRobot.intersects(userRobot)) {
+                    //winLoseWindow(false, frame, userRobot, components);
+                //}
             }
         });
         buttonsPane.add(up, new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
@@ -142,10 +148,10 @@ public class Main {
         JButton down = new JButton("DOWN");
         down.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent down) {
-                userRobot.moveSouth(1);
-                if(enemyRobot.intersects(userRobot)) {
-                    winLoseWindow(false, frame, userRobot);
-                }
+                userRobot.moveSouth(1, enemyRobot);
+                //if(enemyRobot.intersects(userRobot)) {
+                    //winLoseWindow(false, frame, userRobot, components);
+                //}
             }
         });
 
@@ -154,10 +160,10 @@ public class Main {
         JButton left = new JButton("LEFT");
         left.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent left) {
-                userRobot.moveWest(1);
-                if(enemyRobot.intersects(userRobot)) {
-                    winLoseWindow(false, frame, userRobot);
-                }
+                userRobot.moveWest(1, enemyRobot);
+                //if(enemyRobot.intersects(userRobot)) {
+                    //winLoseWindow(false, frame, userRobot, components);
+                //}
             }
         });
 
@@ -166,10 +172,10 @@ public class Main {
         JButton right = new JButton("RIGHT");
         right.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent right){
-                userRobot.moveEast(1);
-                if(enemyRobot.intersects(userRobot)) {
-                    winLoseWindow(false, frame, userRobot);
-                }
+                userRobot.moveEast(1, enemyRobot);
+                //if(enemyRobot.intersects(userRobot)) {
+                    //winLoseWindow(false, frame, userRobot, components);
+                //}
             }
         });
 
@@ -180,7 +186,7 @@ public class Main {
             public void actionPerformed(ActionEvent pick) {
                 userRobot.pickThing();
                 if (userRobot.checkPrize()) {
-                    winLoseWindow(true, frame, enemyRobot);
+                    winLoseWindow(true, frame, enemyRobot, components);
                 }
             }
         });
@@ -275,7 +281,9 @@ public class Main {
 
         if(enemyRobot.intersects(userRobot)) {
             userRobot.crashedBot = true;
+            System.out.println("AAA");
         }
+        return true;
     }
 
     /**
@@ -296,7 +304,7 @@ public class Main {
      * Shows a different dialog depending on whether you win or lose
      * Allows you to restart or exit the game
      */
-    static void winLoseWindow(boolean win, Frame frame, CustomRobot robot){
+    static void winLoseWindow(boolean win, Frame frame, CustomRobot robot, RobotUIComponents components){
 
         if(win){
             //JPanel panel = new JPanel();
@@ -306,6 +314,8 @@ public class Main {
                     "You win!\nRestart Game?",
                     "Game Over",
                     JOptionPane.YES_NO_OPTION);
+            components.getMenuBar().getMenu(1).getItem(0).doClick();
+
 
             if(i == JOptionPane.YES_OPTION){
                 frame.dispose();
@@ -314,8 +324,18 @@ public class Main {
                 System.exit(1);
             }
         }else{
-            robot.crashedBot=true;
-            int i = JOptionPane.showConfirmDialog(null, "You lose!\nRestart Game?", "Game Over", JOptionPane.YES_NO_OPTION);
+            int i = 0;
+            robot.breakBot=true;
+            Thread thread = new Thread (new Runnable(){
+                @Override
+                public void run() {
+                    robot.breakRobot("lklkjl");
+                }
+            });
+            thread.start();
+            i = JOptionPane.showConfirmDialog(null, "You lose!\nRestart Game?", "Game Over", JOptionPane.YES_NO_OPTION);
+            components.getMenuBar().getMenu(1).getItem(0).doClick();
+
             if(i == JOptionPane.YES_OPTION){
                 frame.dispose();
                 StartGame();
