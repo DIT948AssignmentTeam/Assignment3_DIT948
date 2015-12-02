@@ -1,7 +1,6 @@
 import becker.robots.*;
-import becker.robots.Robot;
 
-import java.awt.*;
+import javax.swing.*;
 
 import static dit948.Random.*;
 
@@ -13,6 +12,9 @@ public class CustomRobot extends RobotSE implements Runnable{
     protected boolean breakBot = false;
     protected boolean crashedBot = false;
     CustomRobot enemyRobot;
+    CustomRobot userRobot = this;
+    JFrame frame;
+    RobotUIComponents components;
 
     public CustomRobot (City city, int xStreet, int yStreet, Direction direction, CustomRobot enemyRobot) {
         super(city, xStreet, yStreet, direction);
@@ -27,6 +29,17 @@ public class CustomRobot extends RobotSE implements Runnable{
         super(city, xStreet, yStreet, direction);
         this.isPlayer = isPlayer;
     }
+
+    public CustomRobot (City city, int xStreet, int yStreet, Direction direction,
+                         CustomRobot enemyRobot, JFrame frame, RobotUIComponents components) {
+        super(city, xStreet, yStreet, direction);
+        this.enemyRobot = enemyRobot;
+        this.frame = frame;
+        this.components = components;
+    }
+
+
+
 
     public void randomMove() {
         int nrTurns = randomInt(4);
@@ -66,11 +79,19 @@ public class CustomRobot extends RobotSE implements Runnable{
             super.pickThing();
     }
 
+    //Method used for moving that checks for a crash
     public void moveR() {
         if (frontIsClear())
             super.move();
         if (this.intersects()){
-            this.breakRobot("user dead");
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    components.getMenuBar().getMenu(1).getItem(0).doClick();
+                    Main.winLoseWindow(false, frame, userRobot, components);
+                }
+            });
+            thread.start();
         }
     }
 
@@ -106,11 +127,6 @@ public class CustomRobot extends RobotSE implements Runnable{
             public void run() {
                 if (isFacingNorth()) {
                     move(nrSteps);
-                    /*
-                    if(intersects(robot)){
-                        //StartGame.winLoseWindow(false, StartGame.frame, StartGame.userRobot);
-                    }
-                    */
                 } else if (isFacingSouth()) {
                     turnAround();
                     move(nrSteps);
@@ -151,6 +167,7 @@ public class CustomRobot extends RobotSE implements Runnable{
 
     @Override
     public void breakRobot(String s) {
+        //components.getMenuBar().getMenu(1).getItem(0).doClick();
         super.breakRobot(s);
     }
 
@@ -198,6 +215,7 @@ public class CustomRobot extends RobotSE implements Runnable{
         thread.start();
     }
 
+    //Check if we have taken the prize
     public boolean checkPrize(){
         if(countThingsInBackpack() > 0){
             return true;
@@ -207,10 +225,7 @@ public class CustomRobot extends RobotSE implements Runnable{
 
     @Override
     public void run() {
-        while(true){
-            // if(StartGame.userRobot.getIntersection()==StartGame.enemyRobot.getIntersection())
-            this.breakRobot("Broken Player!!!");
-        }
+
     }
 }
 

@@ -1,8 +1,6 @@
 import becker.robots.City;
 import becker.robots.Direction;
 import becker.robots.RobotUIComponents;
-
-import javax.management.remote.SubjectDelegationPermission;
 import javax.swing.*;
 
 import static dit948.Random.randomInt;
@@ -33,15 +31,20 @@ public class MachineRobot extends CustomRobot implements Runnable {
         this.userRobot = userRobot;
     }
 
+
+
+
     public void move() {
         if (frontIsClear())
             super.move();
     }
 
+    //Method used for moving that checks for a crash
     public void moveR() {
         if (frontIsClear())
-            super.move();
-        if (intersects()) Main.winLoseWindow(false, frame, this, components);
+            move();
+        if (this.intersects())
+            Main.winLoseWindow(false, frame, userRobot, components);
     }
 
     public void randomMove() {
@@ -52,10 +55,12 @@ public class MachineRobot extends CustomRobot implements Runnable {
         for (int i = 0; i < nrTurns; i++)
             turnLeft();
         setSpeed(speed);
-        move();
-        if (this.getIntersection() == userRobot.getIntersection()) {
-            userRobot.breakRobot("deal with it");
-        }
+        moveR();
+//        if (this.getIntersection() == userRobot.getIntersection()) {
+//            components.getMenuBar().getMenu(1).getItem(0).doClick();
+//            Main.winLoseWindow(false, frame, userRobot, components);
+//            userRobot.breakRobot("deal with it");
+//        }
     }
 
     public void go(int steps) {
@@ -71,13 +76,15 @@ public class MachineRobot extends CustomRobot implements Runnable {
         return false;
     }
 
+    public void crash(){
+        if(this.intersects())
+            Main.winLoseWindow(false, frame, userRobot, components);
+    }
+
     public void run() {
-        System.out.println(getIntersection());
-        //if (!this.isPlayer) {
-        boolean b =true;
         while (true) {
             go(1);
-//            if(this.getIntersection()==this.userRobot.getIntersection()) {
+//            if(this.getIntersection()==this.userRobot.getIntersection())
 //                StartGame.winLoseWindow(false, frame, userRobot);
 //
 //                //this.userRobot.breakRobot("Robot Dead!");
