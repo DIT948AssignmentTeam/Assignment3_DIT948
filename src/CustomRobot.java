@@ -28,6 +28,7 @@ public class CustomRobot extends RobotSE implements Runnable{
         this.isPlayer = isPlayer;
     }
 
+
     public void randomMove() {
         int nrTurns = randomInt(4);
         double speed = getSpeed();
@@ -149,7 +150,7 @@ public class CustomRobot extends RobotSE implements Runnable{
 
     @Override
     public void breakRobot(String s) { //May be used for the lose window, don't know how to implement it w/out bugs
-        breakRobot("enemy dead!");
+        super.breakRobot("enemy dead!");
     }
 
     public void moveEast(int nrSteps, CustomRobot robot) {

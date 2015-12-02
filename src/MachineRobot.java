@@ -40,6 +40,10 @@ public class MachineRobot extends CustomRobot implements Runnable {
         if (intersects()) Main.winLoseWindow(false, frame, this, components);
     }
 
+    public void setUserRobot(CustomRobot userRobot) {
+        this.userRobot = userRobot;
+    }
+
     public void randomMove() {
         int nrTurns = randomInt(4);
         double speed = getSpeed();
@@ -49,6 +53,9 @@ public class MachineRobot extends CustomRobot implements Runnable {
             turnLeft();
         setSpeed(speed);
         move();
+        if (this.getIntersection() == userRobot.getIntersection()) {
+            userRobot.breakRobot("deal with it");
+        }
     }
 
     public void go(int steps) {

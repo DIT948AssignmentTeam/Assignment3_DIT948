@@ -94,6 +94,7 @@ public class Main {
         MachineRobot enemyRobot = new MachineRobot(pacCity, secondRandomInt, Random.randomInt(10),
                 Direction.EAST, frame, components);
         CustomRobot userRobot = new CustomRobot(pacCity, firstRandomInt, Random.randomInt(10), Direction.NORTH, enemyRobot);
+        enemyRobot.setUserRobot(userRobot);
         enemyRobot.setColor(Color.BLUE);
         //enemyRobot.setSpeed(3);
         System.out.println("Speed: "+enemyRobot.getSpeed());
