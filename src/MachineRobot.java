@@ -29,6 +29,10 @@ public class MachineRobot extends CustomRobot implements Runnable {
         this.components = components;
     }
 
+    public void setUserRobot(CustomRobot userRobot){
+        this.userRobot = userRobot;
+    }
+
     public void move() {
         if (frontIsClear())
             super.move();
@@ -37,7 +41,10 @@ public class MachineRobot extends CustomRobot implements Runnable {
     public void moveR() {
         if (frontIsClear())
             super.move();
-        if (intersects()) Main.winLoseWindow(false, frame, this, components);
+        if (intersects()) Main.winLoseWindow(false, frame, userRobot, components);
+//        if (this.intersects()){
+//            this.breakRobot("user dead");
+//        }
     }
 
     public void randomMove() {
@@ -48,7 +55,7 @@ public class MachineRobot extends CustomRobot implements Runnable {
         for (int i = 0; i < nrTurns; i++)
             turnLeft();
         setSpeed(speed);
-        move();
+        moveR();
     }
 
     public void go(int steps) {
@@ -77,6 +84,7 @@ public class MachineRobot extends CustomRobot implements Runnable {
 //            }
             if(super.breakBot == true){
                 breakRobot("Broken enemy!!!");
+                components.getMenuBar().getMenu(1).getItem(0).doClick();
             }
         }
     }

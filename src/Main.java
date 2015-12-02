@@ -104,12 +104,16 @@ public class Main {
          * Creating the robots
          */
 
+;
 //        MachineRobot enemyRobot = new MachineRobot(pacCity, secondRandomInt, Random.randomInt(10),
-//                Direction.EAST, userRobot, frame, components);
+//                Direction.EAST, frame, components);
+        CustomRobot userRobot = new CustomRobot(pacCity, firstRandomInt, Random.randomInt(10), Direction.NORTH, frame,
+                components);
         MachineRobot enemyRobot = new MachineRobot(pacCity, secondRandomInt, Random.randomInt(10),
-                Direction.EAST, frame, components);
-        CustomRobot userRobot = new CustomRobot(pacCity, firstRandomInt, Random.randomInt(10), Direction.NORTH, enemyRobot);
+                Direction.EAST, userRobot, frame, components);
         enemyRobot.setColor(Color.BLUE);
+        userRobot.setEnemyRobot(enemyRobot);
+
         //enemyRobot.setSpeed(3);
         System.out.println("Speed: "+enemyRobot.getSpeed());
         userRobot.setColor(Color.RED);
@@ -329,6 +333,7 @@ public class Main {
             Thread thread = new Thread (new Runnable(){
                 @Override
                 public void run() {
+                    components.getMenuBar().getMenu(1).getItem(0).doClick();
                     robot.breakRobot("lklkjl");
                 }
             });

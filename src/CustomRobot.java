@@ -1,6 +1,7 @@
 import becker.robots.*;
 import becker.robots.Robot;
 
+import javax.swing.*;
 import java.awt.*;
 
 import static dit948.Random.*;
@@ -13,6 +14,9 @@ public class CustomRobot extends RobotSE implements Runnable{
     protected boolean breakBot = false;
     protected boolean crashedBot = false;
     CustomRobot enemyRobot;
+    CustomRobot userRobot;
+    JFrame frame;
+    RobotUIComponents components;
 
     public CustomRobot (City city, int xStreet, int yStreet, Direction direction, CustomRobot enemyRobot) {
         super(city, xStreet, yStreet, direction);
@@ -26,6 +30,17 @@ public class CustomRobot extends RobotSE implements Runnable{
     public CustomRobot(City city, int xStreet, int yStreet, Direction direction, boolean isPlayer) {
         super(city, xStreet, yStreet, direction);
         this.isPlayer = isPlayer;
+    }
+
+    public CustomRobot(City city, int xStreet, int yStreet, Direction direction, JFrame frame,
+                       RobotUIComponents components) {
+        super(city, xStreet, yStreet, direction);
+        this.frame = frame;
+        this.components = components;
+    }
+
+    public void setEnemyRobot(CustomRobot enemyRobot){
+        this.enemyRobot = enemyRobot;
     }
 
     public void randomMove() {
@@ -69,9 +84,11 @@ public class CustomRobot extends RobotSE implements Runnable{
     public void moveR() {
         if (frontIsClear())
             super.move();
-        if (this.intersects()){
-            this.breakRobot("user dead");
-        }
+        if (intersects()) Main.winLoseWindow(false, frame, this, components);
+
+//        if (this.intersects()){
+//            this.breakRobot("user dead");
+//        }
     }
 
     public void move() {
@@ -119,6 +136,7 @@ public class CustomRobot extends RobotSE implements Runnable{
                     turnRight();
                     move(nrSteps);
                 }
+                if(breakBot)breakRobot("usr ded");
                 //System.out.println(getIntersection());
             }
         });
@@ -141,6 +159,7 @@ public class CustomRobot extends RobotSE implements Runnable{
                     turnRight();
                     move(nrSteps);
                 }
+                if(breakBot)breakRobot("usr ded");
                 //System.out.println(getIntersection());
             }
         });
@@ -150,6 +169,7 @@ public class CustomRobot extends RobotSE implements Runnable{
     @Override
     public void breakRobot(String s) {
         super.breakRobot(s);
+//        components.getMenuBar().getMenu(1).getItem(0).doClick();
     }
 
     public void moveEast(int nrSteps, CustomRobot robot) {
@@ -168,6 +188,7 @@ public class CustomRobot extends RobotSE implements Runnable{
                     turnLeft();
                     move(nrSteps);
                 }
+                if(breakBot)breakRobot("usr ded");
             }
         });
         thread.start();
@@ -190,6 +211,7 @@ public class CustomRobot extends RobotSE implements Runnable{
                     turnRight();
                     move(nrSteps);
                 }
+                if(breakBot)breakRobot("usr ded");
                 //System.out.println(getIntersection());
             }
         });
