@@ -29,7 +29,19 @@ public class Main {
     static double robotspeed = 1;
     public static void main(String[] args) {
         StartGame();
-
+//        Thread thread = new Thread (new Runnable(){
+//            @Override
+//            public void run() {
+//                StartGame();
+//                while(true){
+//                    if (StartGame.userRobot.getIntersection()==StartGame.enemyRobot.getIntersection()) {
+//                        winLoseWindow(false, StartGame.frame, StartGame.userRobot);
+//                        StartGame.components.getMenuBar().getMenu(1).getItem(0).doClick();
+//                    }
+//                }
+//            }
+//        });
+//        thread.start();
     }
 
 
@@ -43,9 +55,12 @@ public class Main {
 
         City pacCity = new City(10, 10); //creating a new city
 
+        //Rectangle rectangle = new Rectangle();
+
         putWalls(pacCity); //showing the walls
 
         RobotUIComponents components = new RobotUIComponents(pacCity, 0, 0, 11, 11);
+
 
         JMenuBar menubar = new JMenuBar();
 
@@ -53,7 +68,7 @@ public class Main {
         JPanel panel = new JPanel();
         JPanel buttonsPane = new JPanel(new GridBagLayout());
         JPanel cityView = components.getCityView();
-        //components.getCityView().setSimSize(44); //zooms in/out if needed - not needed any more
+        //components.getCityView().setSimSize(44);
 
         JMenu actions = new JMenu("Actions");
         JMenu settings = new JMenu("Settings");
@@ -124,9 +139,9 @@ public class Main {
         up.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent up){
                 userRobot.moveNorth(1, enemyRobot);
-                //if(enemyRobot.intersects(userRobot)) {                        //
-                    //winLoseWindow(false, frame, userRobot, components);       //See comment below
-                //}                                                             //
+                //if(enemyRobot.intersects(userRobot)) {
+                //winLoseWindow(false, frame, userRobot, components);
+                //}
             }
         });
         buttonsPane.add(up, new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
@@ -135,9 +150,9 @@ public class Main {
         down.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent down) {
                 userRobot.moveSouth(1, enemyRobot);
-                //if(enemyRobot.intersects(userRobot)) {                        //This works, but only if the collision
-                    //winLoseWindow(false, frame, userRobot, components);       //happens when the user moves.
-                //}                                                             //
+                //if(enemyRobot.intersects(userRobot)) {
+                //winLoseWindow(false, frame, userRobot, components);
+                //}
             }
         });
 
@@ -146,9 +161,9 @@ public class Main {
         JButton left = new JButton("LEFT");
         left.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent left) {
-                userRobot.moveWest(1, enemyRobot);                              //
-                //if(enemyRobot.intersects(userRobot)) {                        //See comment above
-                    //winLoseWindow(false, frame, userRobot, components);       //
+                userRobot.moveWest(1, enemyRobot);
+                //if(enemyRobot.intersects(userRobot)) {
+                //winLoseWindow(false, frame, userRobot, components);
                 //}
             }
         });
@@ -158,9 +173,9 @@ public class Main {
         JButton right = new JButton("RIGHT");
         right.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent right){
-                userRobot.moveEast(1, enemyRobot);                              //
-                //if(enemyRobot.intersects(userRobot)) {                        //See comment above
-                    //winLoseWindow(false, frame, userRobot, components);       //
+                userRobot.moveEast(1, enemyRobot);
+                //if(enemyRobot.intersects(userRobot)) {
+                //winLoseWindow(false, frame, userRobot, components);
                 //}
             }
         });
@@ -265,10 +280,12 @@ public class Main {
 
         components.getMenuBar().getMenu(1).getItem(0).doClick();
 
+        /*
         if(enemyRobot.intersects(userRobot)) {
             userRobot.crashedBot = true;
             System.out.println("AAA");
         }
+        */
         return true;
     }
 

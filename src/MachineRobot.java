@@ -29,6 +29,10 @@ public class MachineRobot extends CustomRobot implements Runnable {
         this.components = components;
     }
 
+    public void setUserRobot(CustomRobot userRobot) {
+        this.userRobot = userRobot;
+    }
+
     public void move() {
         if (frontIsClear())
             super.move();
@@ -38,10 +42,6 @@ public class MachineRobot extends CustomRobot implements Runnable {
         if (frontIsClear())
             super.move();
         if (intersects()) Main.winLoseWindow(false, frame, this, components);
-    }
-
-    public void setUserRobot(CustomRobot userRobot) {
-        this.userRobot = userRobot;
     }
 
     public void randomMove() {
@@ -75,7 +75,7 @@ public class MachineRobot extends CustomRobot implements Runnable {
         System.out.println(getIntersection());
         //if (!this.isPlayer) {
         boolean b =true;
-        for(int i=0;i<50000;i++) {
+        while (true) {
             go(1);
 //            if(this.getIntersection()==this.userRobot.getIntersection()) {
 //                StartGame.winLoseWindow(false, frame, userRobot);

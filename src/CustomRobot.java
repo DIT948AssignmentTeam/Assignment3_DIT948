@@ -28,7 +28,6 @@ public class CustomRobot extends RobotSE implements Runnable{
         this.isPlayer = isPlayer;
     }
 
-
     public void randomMove() {
         int nrTurns = randomInt(4);
         double speed = getSpeed();
@@ -42,7 +41,7 @@ public class CustomRobot extends RobotSE implements Runnable{
 
     public boolean intersects(){
         if(this.getIntersection()==enemyRobot.getIntersection())
-        return true;
+            return true;
 
         return false;
     }
@@ -67,7 +66,7 @@ public class CustomRobot extends RobotSE implements Runnable{
             super.pickThing();
     }
 
-    public void moveR() {   //May be used to do the collision, but it's hard to get the "You Lose!" window without bugs
+    public void moveR() {
         if (frontIsClear())
             super.move();
         if (this.intersects()){
@@ -75,7 +74,7 @@ public class CustomRobot extends RobotSE implements Runnable{
         }
     }
 
-    public void move() {    //May be used to do the collision, but it's hard to get the "You Lose!" window without bugs
+    public void move() {
         if (frontIsClear())
             super.move();
     }
@@ -94,8 +93,8 @@ public class CustomRobot extends RobotSE implements Runnable{
         }
     }
 
-    public boolean intersects(CustomRobot user){ //you need to have the proper constructor to make this work
-        if(enemyRobot.getIntersection()==this.getIntersection())
+    public boolean intersects(CustomRobot user){
+        if(user.getIntersection()==this.getIntersection())
             return true;
 
         return false;
@@ -107,9 +106,11 @@ public class CustomRobot extends RobotSE implements Runnable{
             public void run() {
                 if (isFacingNorth()) {
                     move(nrSteps);
+                    /*
                     if(intersects(robot)){
-                        StartGame.winLoseWindow(false, StartGame.frame, StartGame.userRobot);
+                        //StartGame.winLoseWindow(false, StartGame.frame, StartGame.userRobot);
                     }
+                    */
                 } else if (isFacingSouth()) {
                     turnAround();
                     move(nrSteps);
@@ -149,8 +150,8 @@ public class CustomRobot extends RobotSE implements Runnable{
     }
 
     @Override
-    public void breakRobot(String s) { //May be used for the lose window, don't know how to implement it w/out bugs
-        super.breakRobot("enemy dead!");
+    public void breakRobot(String s) {
+        super.breakRobot(s);
     }
 
     public void moveEast(int nrSteps, CustomRobot robot) {
@@ -207,8 +208,8 @@ public class CustomRobot extends RobotSE implements Runnable{
     @Override
     public void run() {
         while(true){
-            if(StartGame.userRobot.getIntersection()==StartGame.enemyRobot.getIntersection())
-                this.breakRobot("Broken Player!!!");
+            // if(StartGame.userRobot.getIntersection()==StartGame.enemyRobot.getIntersection())
+            this.breakRobot("Broken Player!!!");
         }
     }
 }
