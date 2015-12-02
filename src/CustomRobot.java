@@ -66,7 +66,7 @@ public class CustomRobot extends RobotSE implements Runnable{
             super.pickThing();
     }
 
-    public void moveR() {
+    public void moveR() {   //May be used to do the collision, but it's hard to get the "You Lose!" window without bugs
         if (frontIsClear())
             super.move();
         if (this.intersects()){
@@ -74,7 +74,7 @@ public class CustomRobot extends RobotSE implements Runnable{
         }
     }
 
-    public void move() {
+    public void move() {    //May be used to do the collision, but it's hard to get the "You Lose!" window without bugs
         if (frontIsClear())
             super.move();
     }
@@ -93,8 +93,8 @@ public class CustomRobot extends RobotSE implements Runnable{
         }
     }
 
-    public boolean intersects(CustomRobot user){
-        if(user.getIntersection()==this.getIntersection())
+    public boolean intersects(CustomRobot user){ //you need to have the proper constructor to make this work
+        if(enemyRobot.getIntersection()==this.getIntersection())
             return true;
 
         return false;
@@ -148,8 +148,8 @@ public class CustomRobot extends RobotSE implements Runnable{
     }
 
     @Override
-    public void breakRobot(String s) {
-        super.breakRobot(s);
+    public void breakRobot(String s) { //May be used for the lose window, don't know how to implement it w/out bugs
+        breakRobot("enemy dead!");
     }
 
     public void moveEast(int nrSteps, CustomRobot robot) {
