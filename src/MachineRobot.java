@@ -54,7 +54,9 @@ public class MachineRobot extends CustomRobot implements Runnable {
         setSpeed(speed);
         move();
         if (this.getIntersection() == userRobot.getIntersection()) {
+            Main.winLoseWindow(false, frame, this, components);
             userRobot.breakRobot("deal with it");
+
         }
     }
 

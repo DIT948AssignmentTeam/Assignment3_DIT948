@@ -1,4 +1,5 @@
 import becker.robots.*;
+
 import becker.robots.Robot;
 
 import java.awt.*;
@@ -13,6 +14,9 @@ public class CustomRobot extends RobotSE implements Runnable{
     protected boolean breakBot = false;
     protected boolean crashedBot = false;
     CustomRobot enemyRobot;
+    Frame frame;
+    RobotUIComponents components;
+
 
     public CustomRobot (City city, int xStreet, int yStreet, Direction direction, CustomRobot enemyRobot) {
         super(city, xStreet, yStreet, direction);
@@ -37,6 +41,7 @@ public class CustomRobot extends RobotSE implements Runnable{
             turnLeft();
         setSpeed(speed);
         move();
+
     }
 
     public boolean intersects(){
@@ -70,6 +75,8 @@ public class CustomRobot extends RobotSE implements Runnable{
         if (frontIsClear())
             super.move();
         if (this.intersects()){
+            Main.winLoseWindow(false, frame, this, components);
+
             this.breakRobot("user dead");
         }
     }

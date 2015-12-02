@@ -307,6 +307,7 @@ public class Main {
      * Shows a different dialog depending on whether you win or lose
      * Allows you to restart or exit the game
      */
+
     static void winLoseWindow(boolean win, Frame frame, CustomRobot robot, RobotUIComponents components){
 
         if(win){
